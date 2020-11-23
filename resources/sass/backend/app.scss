@@ -1,0 +1,67 @@
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Nunito");
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import "~admin-lte/dist/css/adminlte.css";
+
+@import "./bootstrap.css";
+.dropdown-menu-lg {
+    max-width: 300px;
+    min-width: 280px;
+    padding: 0;
+}
+.badge {
+    margin-top: -10px;
+}
+.topnav-image {
+    width: 40px;
+}
+.nav-link-py {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.icon {
+    -webkit-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+    position: absolute;
+    top: -15px;
+    right: 10px;
+    z-index: 0;
+    font-size: 90px;
+    color: rgba(0, 0, 0, 0.15);
+}
+
+.inner {
+    margin-left: 10px;
+}
+.inner p {
+    margin-bottom: 0px;
+}
+.inner h3 {
+    margin-top: 15px;
+}
+.box-body {
+    border-top: 3px solid #00c0ef;
+}
+.small-box {
+    box-shadow: 7px 8px rgba(0, 0, 0, 0.199);
+    transition: 0.5s;
+}
+.small-box:hover {
+    box-shadow: none;
+}
+.small-box:hover .icon {
+    font-size: 95px;
+}
+.next_page {
+    float: right;
+}
+.next_page a {
+    text-decoration: none;
+    font-weight: 600;
+}
+
