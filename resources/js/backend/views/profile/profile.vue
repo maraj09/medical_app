@@ -25,16 +25,15 @@
         <section class="content">
             <div class=" container">
                 <div class="row ">
-                    <form>
+                    <form v-if="user_info[0]" method="POST">
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputEmail4">Name</label>
                                 <input
                                     type="text"
                                     class="form-control"
-                                    id=""
                                     placeholder="Name"
-                                    value=""
+                                    name="name"
                                     v-model="user_info[0].name"
                                 />
                             </div>
@@ -88,14 +87,21 @@
                                     type="text"
                                     class="form-control"
                                     id="inputCity"
-                                v-model="user_info[1].city"
-
+                                    v-model="user_info[1].city"
                                 />
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="inputState">Country</label>
-                                <select id="inputState" class="form-control" v-model="user_info[1].country" >
-                                    <option :value="user_info[1].country" selected>{{user_info[1].country}}</option>
+                                <select
+                                    id="inputState"
+                                    class="form-control"
+                                    v-model="user_info[1].country"
+                                >
+                                    <option
+                                        :value="user_info[1].country"
+                                        selected
+                                        >{{ user_info[1].country }}</option
+                                    >
                                     <option>...</option>
                                 </select>
                             </div>
@@ -116,14 +122,18 @@
                                     type="file"
                                     class="form-control"
                                     id="inputCity"
-                                 v-on:change="user_info[1].avatar"
-
                                 />
                             </div>
                         </div>
-                        <div class="form-group d-flex justify-content-between mt-4">
+                        <div
+                            class="form-group d-flex justify-content-between mt-4"
+                        >
                             <div>
-                                <button type="submit" class="btn btn-success ">
+                                <button
+                                    type="submit"
+                                    @click.prevent="update_info()"
+                                    class="btn btn-success "
+                                >
                                     Save Changes
                                 </button>
                             </div>
@@ -150,12 +160,22 @@
 export default {
     data() {
         return {
-            user_info: {}
+            user_info: []
         };
     },
     methods: {
         load_user_infos() {
             axios.get("api/user").then(({ data }) => (this.user_info = data));
+        },
+        update_info() {
+            axios
+                .patch("api/user/" + this.user_info[0].id)
+                .then(function(response) {
+                    console.log(response.data);
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
         }
     },
     created() {
