@@ -57,18 +57,20 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //$request = $request->user;
-        $this->validate($request,[
-            'name' => 'required ',
-            '*.user_info.*.address' => 'max:2',
-        ]);
         $user = User::findOrFail($id);
         $user_info = UserInfo::findOrFail($id);
+        $this->validate($request,[
+            'name' => 'required ',
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            '*.full_name' => '',
+        ]);
         $user->update([
             "name" => $request->name,
+            "email" => $request->email,
         ]);
         $user_info->update([
             "address" => $request->user_info['address'],
+            "full_name" => $request->user_info['full_name'],
             
         ]);
     }

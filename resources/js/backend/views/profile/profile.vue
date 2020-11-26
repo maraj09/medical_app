@@ -25,7 +25,7 @@
         <section class="content">
             <div class=" container">
                 <div class="row ">
-                    <form v-if="user_info" >
+                    <form v-if="load" >
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputName">Name</label>
@@ -158,12 +158,15 @@
 export default {
     data() {
         return {
-            user_info: {}
+            user_info: {},
+            load : false
         };
     },
     methods: {
         load_user_infos() {
+            
             axios.get("api/user").then(({ data }) => (this.user_info = data));
+            this.load =true;
         },
         update_info() {
             axios
