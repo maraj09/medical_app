@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,10 +23,6 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $user_info = Auth::user()->user_info;
-        $user =  [
-            $user,
-            $user_info
-        ];
         return $user;
     }
 
@@ -60,7 +57,20 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $request['name'];
+        //$request = $request->user;
+        $this->validate($request,[
+            'name' => 'required ',
+            '*.user_info.*.address' => 'max:2',
+        ]);
+        $user = User::findOrFail($id);
+        $user_info = UserInfo::findOrFail($id);
+        $user->update([
+            "name" => $request->name,
+        ]);
+        $user_info->update([
+            "address" => $request->user_info['address'],
+            
+        ]);
     }
 
     /**

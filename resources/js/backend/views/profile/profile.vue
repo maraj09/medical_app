@@ -25,16 +25,16 @@
         <section class="content">
             <div class=" container">
                 <div class="row ">
-                    <form v-if="user_info[0]" method="POST">
+                    <form v-if="user_info" >
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="inputEmail4">Name</label>
+                                <label for="inputName">Name</label>
                                 <input
                                     type="text"
                                     class="form-control"
                                     placeholder="Name"
                                     name="name"
-                                    v-model="user_info[0].name"
+                                    v-model="user_info.name"
                                 />
                             </div>
                             <div class="form-group col-md-6">
@@ -44,7 +44,7 @@
                                     class="form-control"
                                     id=""
                                     placeholder="Fullname"
-                                    v-model="user_info[1].full_name"
+                                    v-model="user_info.user_info.full_name"
                                 />
                             </div>
                         </div>
@@ -56,7 +56,7 @@
                                     class="form-control"
                                     id="inputEmail4"
                                     placeholder="Email"
-                                    v-model="user_info[0].email"
+                                    v-model="user_info.email"
                                 />
                             </div>
                             <div class="form-group col-md-6">
@@ -66,7 +66,7 @@
                                     class="form-control"
                                     id=""
                                     placeholder="Username"
-                                    v-model="user_info[0].user_name"
+                                    v-model="user_info.user_name"
                                 />
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                                 class="form-control"
                                 id="inputAddress"
                                 placeholder="1234 Main St"
-                                v-model="user_info[1].address"
+                                v-model="user_info.user_info.address"
                             />
                         </div>
                         <div class="form-row">
@@ -87,7 +87,7 @@
                                     type="text"
                                     class="form-control"
                                     id="inputCity"
-                                    v-model="user_info[1].city"
+                                    v-model="user_info.user_info.city"
                                 />
                             </div>
                             <div class="form-group col-md-4">
@@ -95,12 +95,12 @@
                                 <select
                                     id="inputState"
                                     class="form-control"
-                                    v-model="user_info[1].country"
+                                    v-model="user_info.user_info.country"
                                 >
                                     <option
-                                        :value="user_info[1].country"
+                                        :value="user_info.user_info.country"
                                         selected
-                                        >{{ user_info[1].country }}</option
+                                        >{{ user_info.user_info.country }}</option
                                     >
                                     <option>...</option>
                                 </select>
@@ -111,7 +111,7 @@
                                     type="text"
                                     class="form-control"
                                     id="inputZip"
-                                    v-model="user_info[1].zip_code"
+                                    v-model="user_info.user_info.zip_code"
                                 />
                             </div>
                         </div>
@@ -125,9 +125,7 @@
                                 />
                             </div>
                         </div>
-                        <div
-                            class="form-group d-flex justify-content-between mt-4"
-                        >
+                        <div class="form-group d-flex justify-content-between mt-4">
                             <div>
                                 <button
                                     type="submit"
@@ -160,7 +158,7 @@
 export default {
     data() {
         return {
-            user_info: []
+            user_info: {}
         };
     },
     methods: {
@@ -169,7 +167,7 @@ export default {
         },
         update_info() {
             axios
-                .patch("api/user/" + this.user_info[0].id)
+                .patch("api/user/" + this.user_info.id, this.user_info)
                 .then(function(response) {
                     console.log(response.data);
                 })
