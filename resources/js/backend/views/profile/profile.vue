@@ -24,8 +24,8 @@
         </h2>
         <section class="content">
             <div class=" container">
-                <div class="row ">
-                    <form v-if="load" >
+                <div class="row " v-if="load">
+                    <form  >
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputName">Name</label>
@@ -42,6 +42,7 @@
                                 <input
                                     type="text"
                                     class="form-control"
+                                    name="full_name"
                                     id=""
                                     placeholder="Fullname"
                                     v-model="user_info.user_info.full_name"
@@ -164,9 +165,7 @@ export default {
     },
     methods: {
         load_user_infos() {
-            
-            axios.get("api/user").then(({ data }) => (this.user_info = data));
-            this.load =true;
+            axios.get("api/user").then(({ data }) => (this.user_info = data, this.load = true));
         },
         update_info() {
             axios
