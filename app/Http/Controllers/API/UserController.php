@@ -70,6 +70,9 @@ class UserController extends Controller
         $user_info->update([
             "address" => $request->user_info['address'],
             "full_name" => $request->user_info['full_name'],
+            "city" => $request->user_info['city'],
+            "country" => $request->user_info['country'],
+            "zip_code" => $request->user_info['zip_code'],
             
         ]);
     }
