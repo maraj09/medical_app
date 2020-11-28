@@ -1,17 +1,20 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-
 Vue.use(VueRouter);
+//Importing Routes--------------------------------------------
+import Dashboard from "../views/dashboard/dashboard";
+import Profile from "../views/profile/profile";
+
 
 const routes = [
     { path: "/", redirect: "dashboard" },
     {
         path: "/dashboard",
-        component: () => import("../views/dashboard/dashboard.vue")
+        component: Dashboard
     },
     {
         path: "/profile",
-        component: () => import("../views/profile/profile.vue")
+        component: Profile
     }
 ];
 
