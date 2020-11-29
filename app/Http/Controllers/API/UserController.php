@@ -21,8 +21,9 @@ class UserController extends Controller
     }
     public function index()
     {
-        $user = Auth::user();
-        $user_info = Auth::user()->user_info;
+        $user = auth('api')->user();
+        $user_info = $user->info;
+        $user_role = $user->role;
         return $user;
     }
 
@@ -63,7 +64,7 @@ class UserController extends Controller
             'name' => 'required|string|max:10',
             'user_info.full_name' => 'required|string|max:255',
             'user_info.country' => 'required|string|max:255',
-            'user_info.zip_code' => 'required|integer|max:255',
+            'user_info.zip_code' => 'required|integer',
             'email' => 'required|email|unique:users,email,'.$user->id,
             'user_name' => 'required|unique:users,user_name,'.$user->id,
         ]);

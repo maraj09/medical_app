@@ -23,7 +23,7 @@ class UserInfo extends Model
         'job',
         'service_area',
     ];
-    public function user()
+    public function users()
     {
         return $this->belongsTo(User::class);
     }

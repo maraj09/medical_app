@@ -11,8 +11,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     <title>AdminLTE 3 | Starter</title>
-
-    <link rel="stylesheet" href="/css/backend/app.css">
+    <link rel="stylesheet" href="{{ asset('/css/backend/app.css') }}">
 </head>
 
 <body class="hold-transition sidebar-mini">
