@@ -22,7 +22,7 @@
         <section class="content" v-if="load">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <!-- Profile Image -->
                         <div class="card card-primary card-outline">
                             <div class="card-body box-profile">
@@ -79,7 +79,7 @@
                         <!-- /.card -->
                     </div>
                     <!-- /.col -->
-                    <div class="col-lg-9">
+                    <div class="col-lg-8">
                         <div class="card">
                             <div
                                 class="card-header p-2"
@@ -189,15 +189,15 @@
                                                 <div class="col-sm-10">
                                                     <div class="row">
                                                         <div
-                                                            class=" row col-sm-8"
+                                                            class=" row col-lg-7"
                                                         >
                                                             <label
                                                                 for="area"
-                                                                class="col-sm-2   col-form-label"
+                                                                class="col-md-3   col-form-label"
                                                                 >Area :</label
                                                             >
                                                             <div
-                                                                class="col-sm-9"
+                                                                class="col-md-9"
                                                             >
                                                                 <input
                                                                     type="text"
@@ -213,15 +213,15 @@
                                                             </div>
                                                         </div>
                                                         <div
-                                                            class=" row col-sm-4"
+                                                            class=" row col-lg-5 mt-3 mt-lg-0"
                                                         >
                                                             <label
                                                                 for="city"
-                                                                class="col-sm-3  col-form-label"
+                                                                class="col-sm-4  col-form-label"
                                                                 >City :</label
                                                             >
                                                             <div
-                                                                class="col-sm-9"
+                                                                class="col-sm-8"
                                                             >
                                                                 <input
                                                                     type="text"
@@ -237,15 +237,15 @@
                                                             </div>
                                                         </div>
                                                         <div
-                                                            class=" row col-sm-4 mt-3"
+                                                            class=" row col-lg-5 mt-3"
                                                         >
                                                             <label
                                                                 for="zip"
-                                                                class="col-sm-3  col-form-label"
+                                                                class="col-sm-4  col-form-label"
                                                                 >Zip :</label
                                                             >
                                                             <div
-                                                                class="col-sm-9"
+                                                                class="col-sm-7"
                                                             >
                                                                 <input
                                                                     type="number"
@@ -261,16 +261,16 @@
                                                             </div>
                                                         </div>
                                                         <div
-                                                            class=" row col-sm-6 mt-3"
+                                                            class=" row col-lg-6 mt-3"
                                                         >
                                                             <label
                                                                 for="area"
-                                                                class="col-sm-3  col-form-label"
+                                                                class="col-sm-4   col-form-label"
                                                                 >Country
                                                                 :</label
                                                             >
                                                             <div
-                                                                class="col-sm-9"
+                                                                class="col-sm-7"
                                                             >
                                                                 <input
                                                                     type="text"
@@ -300,6 +300,7 @@
                                                             type="file"
                                                             class="custom-file-input"
                                                             id="exampleInputFile"
+                                                            @change="upload_image"
                                                         />
                                                         <label
                                                             class="custom-file-label"
@@ -365,6 +366,9 @@ export default {
                 .catch(function(error) {
                     console.log(error);
                 });
+        },
+        upload_image(){
+            
         }
     },
     created() {
