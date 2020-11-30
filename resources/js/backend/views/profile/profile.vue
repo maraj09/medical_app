@@ -30,10 +30,18 @@
                                     <img
                                         class="profile-user-img img-fluid img-circle"
                                         alt="User profile picture"
+                                        :src="
+                                            user_info.info.avatar.length > 200
+                                                ? user_info.info.avatar
+                                                : 'images/profile/' +
+                                                  user_info.info.avatar
+                                        "
                                     />
                                 </div>
 
-                                <h3 class="profile-username text-center">
+                                <h3
+                                    class="profile-username text-center text-uppercase"
+                                >
                                     {{ user_info.info.full_name }}
                                 </h3>
 
@@ -108,7 +116,10 @@
                             <div class="card-body">
                                 <div class="tab-content">
                                     <div class=" active tab-pane" id="settings">
-                                        <form class="form-horizontal">
+                                        <form
+                                            class="form-horizontal"
+                                            enctype=" multipart/form-data"
+                                        >
                                             <div class="form-group row">
                                                 <label
                                                     for="inputName"
@@ -122,7 +133,13 @@
                                                         placeholder="Name"
                                                         name="name"
                                                         v-model="user_info.name"
+                                                        :class="{
+                                                            'is-invalid': user_info.errors.has(
+                                                                'name'
+                                                            )
+                                                        }"
                                                     />
+                                                <has-error :form="user_info" field="name"></has-error>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -295,18 +312,14 @@
                                                     >Profile Picture</label
                                                 >
                                                 <div class="col-sm-5">
-                                                    <div class="custom-file">
+                                                    <div class="form-group">
                                                         <input
                                                             type="file"
-                                                            class="custom-file-input"
-                                                            id="exampleInputFile"
-                                                            @change="upload_image"
+                                                            class="form-control-file"
+                                                            @change.prevent="
+                                                                upload_image
+                                                            "
                                                         />
-                                                        <label
-                                                            class="custom-file-label"
-                                                            for="exampleInputFile"
-                                                            >Choose file</label
-                                                        >
                                                     </div>
                                                 </div>
                                             </div>
@@ -317,6 +330,9 @@
                                                     <button
                                                         type="submit"
                                                         class="btn btn-warning"
+                                                        @click.prevent="
+                                                            update_info
+                                                        "
                                                     >
                                                         Update Your Profile
                                                     </button>
@@ -345,30 +361,37 @@
 export default {
     data() {
         return {
-            user_info: {},
+            user_info: new Form({
+                id: "",
+                name: "",
+                email: "",
+                user_name: "",
+                info: "",
+                role: ""
+            }),
             load: false
         };
     },
     methods: {
         load_user_infos() {
-            axios
+            this.user_info
                 .get("api/user")
                 .then(
-                    ({ data }) => ((this.user_info = data), (this.load = true))
+                    ({ data }) => (
+                        this.user_info.fill(data), (this.load = true)
+                    )
                 );
         },
         update_info() {
-            axios
-                .patch("api/user/" + this.user_info.id, this.user_info)
-                .then(function(response) {
-                    console.log(response.data);
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
+            this.user_info.patch("api/profile");
         },
-        upload_image(){
-            
+        upload_image(e) {
+            let img = e.target.files[0];
+            let reader = new FileReader();
+            reader.onloadend = img => {
+                this.user_info.info.avatar = reader.result;
+            };
+            reader.readAsDataURL(img);
         }
     },
     created() {

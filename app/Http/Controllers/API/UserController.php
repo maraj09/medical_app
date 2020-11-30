@@ -56,30 +56,48 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+
+    public function update(Request $request, $id){
+
+    }
+
+    public function update_profile(Request $request)
     {
-        $user = User::findOrFail($id);
-        $user_info = UserInfo::findOrFail($id);
+        $user = User::findOrFail($request->id);
+        $user_info = UserInfo::findOrFail($request->id);
         $this->validate($request,[
             'name' => 'required|string|max:10',
-            'user_info.full_name' => 'required|string|max:255',
-            'user_info.country' => 'required|string|max:255',
-            'user_info.zip_code' => 'required|integer',
-            'email' => 'required|email|unique:users,email,'.$user->id,
-            'user_name' => 'required|unique:users,user_name,'.$user->id,
+            'info.full_name' => 'required|string|max:255',
+            'info.country' => 'required|string|max:255',
+            'info.zip_code' => 'required|integer',
+            'info.avatar' => '',
+            'email' => 'required|email|unique:users,email,'.$request->id,
+            'user_name' => 'required|unique:users,user_name,'.$request->id,
         ]);
+        $current_avatar = $user_info->avatar;
+        if ($request->info['avatar'] != $current_avatar) {
+            $name = time().'.' . explode('/', explode(':', substr($request->info['avatar'], 0, strpos($request->info['avatar'], ';')))[1])[1];
+            \Image::make($request->info['avatar'])->save(public_path('images/profile/').$name);
+            $user_info->update([
+                "avatar" =>$name,
+            ]);
+        $current_avatar = public_path('images/profile/').$current_avatar;
+        if (file_exists($current_avatar)) {
+            @unlink($current_avatar);
+        }
+
+        }
         $user->update([
             "name" => $request->name,
             "email" => $request->email,
             "user_name" => $request->user_name,
         ]);
         $user_info->update([
-            "address" => $request->user_info['address'],
-            "full_name" => $request->user_info['full_name'],
-            "city" => $request->user_info['city'],
-            "country" => $request->user_info['country'],
-            "zip_code" => $request->user_info['zip_code'],
-            
+            "address" => $request->info['address'],
+            "full_name" => $request->info['full_name'],
+            "city" => $request->info['city'],
+            "country" => $request->info['country'],
+            "zip_code" => $request->info['zip_code'],
         ]);
     }
 

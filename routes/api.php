@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::apiResources(['user'=> 'API\UserController']);
+Route::patch('profile','API\UserController@update_profile');
