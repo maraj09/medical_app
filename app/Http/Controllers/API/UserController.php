@@ -75,7 +75,7 @@ class UserController extends Controller
             'info.city' => 'required|string|max:255',
             'info.country' => 'required|string|max:255',
             'info.zip_code' => 'required|integer',
-            'info.avatar' => '',
+            'info.avatar' => 'string',
             'email' => 'required|email|unique:users,email,'.$request->id,
             'user_name' => 'required|unique:users,user_name,'.$request->id,
         ],[

@@ -290,15 +290,17 @@
                                                                             .address
                                                                     "
                                                                     :class="{
-                                                            'is-invalid': user_info.errors.has(
-                                                                'info.address'
-                                                            )
-                                                        }"
+                                                                        'is-invalid': user_info.errors.has(
+                                                                            'info.address'
+                                                                        )
+                                                                    }"
                                                                 />
                                                                 <has-error
-                                                        :form="user_info"
-                                                        field="info.address"
-                                                    ></has-error>
+                                                                    :form="
+                                                                        user_info
+                                                                    "
+                                                                    field="info.address"
+                                                                ></has-error>
                                                             </div>
                                                         </div>
                                                         <div
@@ -323,15 +325,17 @@
                                                                             .city
                                                                     "
                                                                     :class="{
-                                                            'is-invalid': user_info.errors.has(
-                                                                'info.city'
-                                                            )
-                                                        }"
+                                                                        'is-invalid': user_info.errors.has(
+                                                                            'info.city'
+                                                                        )
+                                                                    }"
                                                                 />
                                                                 <has-error
-                                                        :form="user_info"
-                                                        field="info.city"
-                                                    ></has-error>
+                                                                    :form="
+                                                                        user_info
+                                                                    "
+                                                                    field="info.city"
+                                                                ></has-error>
                                                             </div>
                                                         </div>
                                                         <div
@@ -356,15 +360,17 @@
                                                                             .zip_code
                                                                     "
                                                                     :class="{
-                                                            'is-invalid': user_info.errors.has(
-                                                                'info.zip_code'
-                                                            )
-                                                        }"
+                                                                        'is-invalid': user_info.errors.has(
+                                                                            'info.zip_code'
+                                                                        )
+                                                                    }"
                                                                 />
                                                                 <has-error
-                                                        :form="user_info"
-                                                        field="info.zip_code"
-                                                    ></has-error>
+                                                                    :form="
+                                                                        user_info
+                                                                    "
+                                                                    field="info.zip_code"
+                                                                ></has-error>
                                                             </div>
                                                         </div>
                                                         <div
@@ -390,15 +396,17 @@
                                                                             .country
                                                                     "
                                                                     :class="{
-                                                            'is-invalid': user_info.errors.has(
-                                                                'info.country'
-                                                            )
-                                                        }"
+                                                                        'is-invalid': user_info.errors.has(
+                                                                            'info.country'
+                                                                        )
+                                                                    }"
                                                                 />
                                                                 <has-error
-                                                        :form="user_info"
-                                                        field="info.country"
-                                                    ></has-error>
+                                                                    :form="
+                                                                        user_info
+                                                                    "
+                                                                    field="info.country"
+                                                                ></has-error>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -490,11 +498,12 @@ export default {
             load: false,
             isSize: false,
             isFile: false,
-            isDisable : true,
+            isDisable: true
         };
     },
     methods: {
         load_user_infos() {
+            this.$Progress.start();
             this.user_info
                 .get("api/user")
                 .then(
@@ -502,20 +511,31 @@ export default {
                         this.user_info.fill(data), (this.load = true)
                     )
                 );
+            this.$Progress.finish();
         },
         update_info() {
+            this.$Progress.start();
             this.user_info.patch("api/profile");
+            this.$Progress.finish();
+            swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Profile Updated Successfully !",
+                showConfirmButton: false,
+                timer: 1500
+            });
         },
         upload_image(e) {
+            this.$Progress.start();
             let img = e.target.files[0];
-            
+
             let img_type = [
                 "image/jpeg",
                 "image/jpg",
                 "image/png",
                 "image/gif"
             ];
-            if (img_type.indexOf(img["type"]) > -1 ) {
+            if (img_type.indexOf(img["type"]) > -1) {
                 this.isFile = false;
                 this.isDisable = false;
                 let reader = new FileReader();
@@ -523,19 +543,20 @@ export default {
                     this.user_info.info.avatar = reader.result;
                 };
                 reader.readAsDataURL(img);
+                this.$Progress.finish();
             } else {
                 this.isFile = true;
                 this.isDisable = true;
-
+                this.$Progress.fail();
             }
         },
-        data_change(){
-            this.isDisable = false
+        data_change() {
+            this.isDisable = false;
         }
     },
     created() {
         this.load_user_infos();
-    },
+    }
 };
 </script>
 

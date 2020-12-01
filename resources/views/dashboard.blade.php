@@ -18,7 +18,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="wrapper" id="app">
 
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light ">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
@@ -43,9 +43,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </form>
 
             <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ml-auto ">
                 <!-- Messages Dropdown Menu -->
-                <li class="nav-item dropdown mr-3">
+                <li class="nav-item dropdown ">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-comments fa-2x"></i>
                         <span class="badge badge-danger navbar-badge">3</span>
@@ -133,14 +133,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                     </div>
                 </li>
-                <li class="nav-item dropdown  mx-3">
+                <li class="nav-item dropdown ">
                     <a data-toggle="dropdown" href="#" style="text-decoration: none" class=" d-flex align-items-center "
                         id="dropdownMenuLink">
-                        <img src="/images/AdminLTELogo.png" alt="AdminLTE Logo"
+                        <img src="/images/profile/{{ $user->info->avatar }}" alt="AdminLTE Logo"
                             class="topnav-image img-circle elevation-3">
-                        <span style="font-size: 20px" class=" ml-2  text-dark">AdminLTE 3</span>
+                        <span style="font-size: 20px" class=" ml-2  text-dark">{{ $user->name }}</span>
                     </a>
-                    <div class="dropdown-menu  dropdown-menu-left" aria-labelledby="dropdownMenuLink">
+                    <div class="dropdown-menu  dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                         <a class="dropdown-item" href="#">Profile</a>
                         <a class="dropdown-item" href="#">Order List</a>
                         <div class="dropdown-divider"></div>
@@ -172,10 +172,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="/images/user1-128x128.jpg" class="img-circle elevation-2" alt="User Image">
+                        <img src="/images/profile/{{ $user->info->avatar }}" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Alexander Pierce</a>
+                        <router-link to="/profile" class="d-block">{{ $user->info->full_name }}</router-link>
                     </div>
                 </div>
 
@@ -232,7 +232,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="content-wrapper">
             <router-view></router-view>
 
-
+            <vue-progress-bar></vue-progress-bar>
         </div>
         <!-- Main Footer -->
 
