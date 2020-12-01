@@ -78,6 +78,13 @@ class UserController extends Controller
             'info.avatar' => '',
             'email' => 'required|email|unique:users,email,'.$request->id,
             'user_name' => 'required|unique:users,user_name,'.$request->id,
+        ],[
+            'info.full_name.required' => 'The Full name field is required',
+            'info.phone_no.required' => 'The Phone No field is required',
+            'info.address.required' => 'The Address field is required',
+            'info.city.required' => 'The City field is required',
+            'info.country.required' => 'The Country field is required',
+            'info.zip_code.required' => 'The Zip code field is required',
         ]);
         $current_avatar = $user_info->avatar;
         if ($request->info['avatar'] != $current_avatar) {
@@ -87,7 +94,7 @@ class UserController extends Controller
                 "avatar" =>$name,
             ]);
         $current_avatar = public_path('images/profile/').$current_avatar;
-        if (file_exists($current_avatar)) {
+        if (file_exists($current_avatar) && $current_avatar !==  public_path('images/profile/').'default.jpg' ) {
             @unlink($current_avatar);
         }
 

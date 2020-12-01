@@ -53,12 +53,17 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        Validator::extend('without_spaces', function($attr, $value){
+            return preg_match('/^\S*$/u', $value);
+        });
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'user_name' => ['required', 'string', 'max:255','unique:users'],
+            'user_name' => ['required', 'string', 'max:255','unique:users','without_spaces'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'avatar' => ['required','image']
+            'avatar' => ['image']
+        ],[
+            'user_name.without_spaces' => 'Sorry You cant use space in here'
         ]);
     }
 
@@ -70,6 +75,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -77,11 +83,13 @@ class RegisterController extends Controller
             'user_name' =>$data['user_name'],
             'role_id'=> 3,
         ]);
-        if ($data['avatar']) {
+        if (!empty($data['avatar'] )) {
             $img_extension = pathinfo($data['avatar']->getClientOriginalName(), PATHINFO_EXTENSION);
             $img_name = time().'_'.uniqid().'.'.$img_extension;
             \Image::make($data['avatar'])->save(public_path('images/profile/').$img_name);
             $data['avatar'] = $img_name;
+        }else{
+            $data['avatar'] = null;
         };
         UserInfo::create([
             'user_id' => $user->id,
@@ -91,7 +99,7 @@ class RegisterController extends Controller
             'city' => $data['city'],
             'country' => $data['country'],
             'zip_code' => $data['zip_code'],
-            'avatar' => $data['avatar'],
+            'avatar' => ($data['avatar']== null) ? 'default.jpg' :  $data['avatar'] ,
             // 'dr_specialization' => $data['dr_specialization'],
             // 'bio' => $data['bio'],
             // 'chamber_addr' => $data['chamber_addr'],

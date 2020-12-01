@@ -144,6 +144,10 @@
                                                             )
                                                         }"
                                                     />
+                                                    <has-error
+                                                        :form="user_info"
+                                                        field="name"
+                                                    ></has-error>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -168,6 +172,10 @@
                                                             )
                                                         }"
                                                     />
+                                                    <has-error
+                                                        :form="user_info"
+                                                        field="info.full_name"
+                                                    ></has-error>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -246,6 +254,10 @@
                                                             )
                                                         }"
                                                     />
+                                                    <has-error
+                                                        :form="user_info"
+                                                        field="info.phone_no"
+                                                    ></has-error>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -283,6 +295,10 @@
                                                             )
                                                         }"
                                                                 />
+                                                                <has-error
+                                                        :form="user_info"
+                                                        field="info.address"
+                                                    ></has-error>
                                                             </div>
                                                         </div>
                                                         <div
@@ -312,7 +328,10 @@
                                                             )
                                                         }"
                                                                 />
-                                                                
+                                                                <has-error
+                                                        :form="user_info"
+                                                        field="info.city"
+                                                    ></has-error>
                                                             </div>
                                                         </div>
                                                         <div
@@ -342,6 +361,10 @@
                                                             )
                                                         }"
                                                                 />
+                                                                <has-error
+                                                        :form="user_info"
+                                                        field="info.zip_code"
+                                                    ></has-error>
                                                             </div>
                                                         </div>
                                                         <div
@@ -372,6 +395,10 @@
                                                             )
                                                         }"
                                                                 />
+                                                                <has-error
+                                                        :form="user_info"
+                                                        field="info.country"
+                                                    ></has-error>
                                                             </div>
                                                         </div>
                                                     </div>
