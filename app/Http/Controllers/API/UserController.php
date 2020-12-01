@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Models\UserInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Intervention\Image\ImageManagerStatic;
 
 class UserController extends Controller
 {
@@ -68,6 +70,9 @@ class UserController extends Controller
         $this->validate($request,[
             'name' => 'required|string|max:10',
             'info.full_name' => 'required|string|max:255',
+            'info.phone_no' => 'required|numeric',
+            'info.address' => 'required|string|max:255',
+            'info.city' => 'required|string|max:255',
             'info.country' => 'required|string|max:255',
             'info.zip_code' => 'required|integer',
             'info.avatar' => '',
@@ -76,7 +81,7 @@ class UserController extends Controller
         ]);
         $current_avatar = $user_info->avatar;
         if ($request->info['avatar'] != $current_avatar) {
-            $name = time().'.' . explode('/', explode(':', substr($request->info['avatar'], 0, strpos($request->info['avatar'], ';')))[1])[1];
+            $name = time().'_'.uniqid().'.' . explode('/', explode(':', substr($request->info['avatar'], 0, strpos($request->info['avatar'], ';')))[1])[1];
             \Image::make($request->info['avatar'])->save(public_path('images/profile/').$name);
             $user_info->update([
                 "avatar" =>$name,
@@ -98,6 +103,7 @@ class UserController extends Controller
             "city" => $request->info['city'],
             "country" => $request->info['country'],
             "zip_code" => $request->info['zip_code'],
+            "phone_no" => $request->info['phone_no'],
         ]);
     }
 

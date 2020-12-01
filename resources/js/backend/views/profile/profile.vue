@@ -22,7 +22,7 @@
         <section class="content" v-if="load">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <!-- Profile Image -->
                         <div class="card card-primary card-outline">
                             <div class="card-body box-profile">
@@ -40,7 +40,7 @@
                                 </div>
 
                                 <h3
-                                    class="profile-username text-center text-uppercase"
+                                    class="profile-username text-center text-uppercase mt-3"
                                 >
                                     {{ user_info.info.full_name }}
                                 </h3>
@@ -77,8 +77,7 @@
 
                                 <a
                                     class="btn btn-danger btn-block text-white"
-                                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();"
+                                    onclick="event.preventDefault();return confirm('Are You Sure ?') ? document.getElementById('logout-form').submit() : '' ;"
                                     ><b>Logout</b></a
                                 >
                             </div>
@@ -87,7 +86,7 @@
                         <!-- /.card -->
                     </div>
                     <!-- /.col -->
-                    <div class="col-lg-8">
+                    <div class="col-lg-9">
                         <div class="card">
                             <div
                                 class="card-header p-2"
@@ -119,7 +118,13 @@
                                         <form
                                             class="form-horizontal"
                                             enctype=" multipart/form-data"
+                                            @keydown="data_change"
                                         >
+                                            <alert-error
+                                                :form="user_info"
+                                                message="There were some problems with your input."
+                                            ></alert-error>
+
                                             <div class="form-group row">
                                                 <label
                                                     for="inputName"
@@ -139,7 +144,6 @@
                                                             )
                                                         }"
                                                     />
-                                                <has-error :form="user_info" field="name"></has-error>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -158,6 +162,11 @@
                                                             user_info.info
                                                                 .full_name
                                                         "
+                                                        :class="{
+                                                            'is-invalid': user_info.errors.has(
+                                                                'info.full_name'
+                                                            )
+                                                        }"
                                                     />
                                                 </div>
                                             </div>
@@ -176,7 +185,16 @@
                                                         v-model="
                                                             user_info.email
                                                         "
+                                                        :class="{
+                                                            'is-invalid': user_info.errors.has(
+                                                                'email'
+                                                            )
+                                                        }"
                                                     />
+                                                    <has-error
+                                                        :form="user_info"
+                                                        field="email"
+                                                    ></has-error>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -194,6 +212,39 @@
                                                         v-model="
                                                             user_info.user_name
                                                         "
+                                                        :class="{
+                                                            'is-invalid': user_info.errors.has(
+                                                                'user_name'
+                                                            )
+                                                        }"
+                                                    />
+                                                    <has-error
+                                                        :form="user_info"
+                                                        field="user_name"
+                                                    ></has-error>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label
+                                                    for="phone"
+                                                    class="col-sm-2 col-form-label"
+                                                    >Phone Number</label
+                                                >
+                                                <div class="col-sm-10">
+                                                    <input
+                                                        type="number"
+                                                        class="form-control"
+                                                        placeholder="Phone Number"
+                                                        name="phone_no"
+                                                        v-model="
+                                                            user_info.info
+                                                                .phone_no
+                                                        "
+                                                        :class="{
+                                                            'is-invalid': user_info.errors.has(
+                                                                'info.phone_no'
+                                                            )
+                                                        }"
                                                     />
                                                 </div>
                                             </div>
@@ -226,6 +277,11 @@
                                                                             .info
                                                                             .address
                                                                     "
+                                                                    :class="{
+                                                            'is-invalid': user_info.errors.has(
+                                                                'info.address'
+                                                            )
+                                                        }"
                                                                 />
                                                             </div>
                                                         </div>
@@ -250,7 +306,13 @@
                                                                             .info
                                                                             .city
                                                                     "
+                                                                    :class="{
+                                                            'is-invalid': user_info.errors.has(
+                                                                'info.city'
+                                                            )
+                                                        }"
                                                                 />
+                                                                
                                                             </div>
                                                         </div>
                                                         <div
@@ -274,6 +336,11 @@
                                                                             .info
                                                                             .zip_code
                                                                     "
+                                                                    :class="{
+                                                            'is-invalid': user_info.errors.has(
+                                                                'info.zip_code'
+                                                            )
+                                                        }"
                                                                 />
                                                             </div>
                                                         </div>
@@ -299,6 +366,11 @@
                                                                             .info
                                                                             .country
                                                                     "
+                                                                    :class="{
+                                                            'is-invalid': user_info.errors.has(
+                                                                'info.country'
+                                                            )
+                                                        }"
                                                                 />
                                                             </div>
                                                         </div>
@@ -321,15 +393,34 @@
                                                             "
                                                         />
                                                     </div>
+                                                    <span
+                                                        class="text-danger d-none "
+                                                        :class="{
+                                                            avatar_size_error: isSize
+                                                        }"
+                                                        >Sorry Your Image Is Too
+                                                        big ! Need less than
+                                                        50MB
+                                                    </span>
+                                                    <span
+                                                        class="text-danger d-none "
+                                                        :class="{
+                                                            avatar_file_error: isFile
+                                                        }"
+                                                        >You Can Only Upload
+                                                        file type: png , jpg ,
+                                                        jpeg , gif !
+                                                    </span>
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
+                                            <div class="form-group row pt-3">
                                                 <div
                                                     class="offset-sm-2 col-sm-10"
                                                 >
                                                     <button
+                                                        :disabled="isDisable"
                                                         type="submit"
-                                                        class="btn btn-warning"
+                                                        class="btn btn-success "
                                                         @click.prevent="
                                                             update_info
                                                         "
@@ -369,7 +460,10 @@ export default {
                 info: "",
                 role: ""
             }),
-            load: false
+            load: false,
+            isSize: false,
+            isFile: false,
+            isDisable : true,
         };
     },
     methods: {
@@ -387,21 +481,43 @@ export default {
         },
         upload_image(e) {
             let img = e.target.files[0];
-            let reader = new FileReader();
-            reader.onloadend = img => {
-                this.user_info.info.avatar = reader.result;
-            };
-            reader.readAsDataURL(img);
+            
+            let img_type = [
+                "image/jpeg",
+                "image/jpg",
+                "image/png",
+                "image/gif"
+            ];
+            if (img_type.indexOf(img["type"]) > -1 ) {
+                this.isFile = false;
+                this.isDisable = false;
+                let reader = new FileReader();
+                reader.onloadend = img => {
+                    this.user_info.info.avatar = reader.result;
+                };
+                reader.readAsDataURL(img);
+            } else {
+                this.isFile = true;
+                this.isDisable = true;
+
+            }
+        },
+        data_change(){
+            this.isDisable = false
         }
     },
     created() {
         this.load_user_infos();
-    }
+    },
 };
 </script>
 
 <style scoped>
 form {
     width: 100%;
+}
+.avatar_size_error,
+.avatar_file_error {
+    display: block !important ;
 }
 </style>

@@ -58,6 +58,7 @@ class RegisterController extends Controller
             'user_name' => ['required', 'string', 'max:255','unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'avatar' => ['required','image']
         ]);
     }
 
@@ -76,6 +77,12 @@ class RegisterController extends Controller
             'user_name' =>$data['user_name'],
             'role_id'=> 3,
         ]);
+        if ($data['avatar']) {
+            $img_extension = pathinfo($data['avatar']->getClientOriginalName(), PATHINFO_EXTENSION);
+            $img_name = time().'_'.uniqid().'.'.$img_extension;
+            \Image::make($data['avatar'])->save(public_path('images/profile/').$img_name);
+            $data['avatar'] = $img_name;
+        };
         UserInfo::create([
             'user_id' => $user->id,
             'full_name' => $data['full_name'],
@@ -91,8 +98,10 @@ class RegisterController extends Controller
             // 'job' => $data['job'],
             // 'service_area' => $data['service_area'],
         ]);
+        
         return $user;
-        
-        
+        // $extension = pathinfo($data['avatar']->getClientOriginalName(), PATHINFO_EXTENSION);
+        // $name = time().'|'.uniqid().'.'.$extension;
+        // dd($name);
     }
 }
