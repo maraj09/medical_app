@@ -65,9 +65,18 @@ class UserController extends Controller
 
     public function update_profile(Request $request)
     {
+        Validator::extend('imageable', function ($attribute, $value, $params, $validator) {
+            try {
+                ImageManagerStatic::make($value);
+                return true;
+            } catch (\Exception $e) {
+                return false;
+            }
+        });
         $user = User::findOrFail($request->id);
         $user_info = UserInfo::findOrFail($request->id);
         $this->validate($request,[
+            
             'name' => 'required|string|max:10',
             'info.full_name' => 'required|string|max:255',
             'info.phone_no' => 'required|numeric',
@@ -75,7 +84,7 @@ class UserController extends Controller
             'info.city' => 'required|string|max:255',
             'info.country' => 'required|string|max:255',
             'info.zip_code' => 'required|integer',
-            'info.avatar' => 'string',
+            'info.avatar' => 'string|imageable',
             'email' => 'required|email|unique:users,email,'.$request->id,
             'user_name' => 'required|unique:users,user_name,'.$request->id,
         ],[
@@ -85,6 +94,7 @@ class UserController extends Controller
             'info.city.required' => 'The City field is required',
             'info.country.required' => 'The Country field is required',
             'info.zip_code.required' => 'The Zip code field is required',
+            'info.avatar.imageable' => 'Image Must be an Image'
         ]);
         $current_avatar = $user_info->avatar;
         if ($request->info['avatar'] != $current_avatar) {

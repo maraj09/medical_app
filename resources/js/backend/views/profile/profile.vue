@@ -426,7 +426,16 @@
                                                             @change.prevent="
                                                                 upload_image
                                                             "
+                                                            :class="{
+                                                                'is-invalid': user_info.errors.has(
+                                                                    'info.avatar'
+                                                                )
+                                                            }"
                                                         />
+                                                        <has-error
+                                                            :form="user_info"
+                                                            field="info.avatar"
+                                                        ></has-error>
                                                     </div>
                                                     <span
                                                         class="text-danger d-none "
@@ -515,15 +524,26 @@ export default {
         },
         update_info() {
             this.$Progress.start();
-            this.user_info.patch("api/profile");
-            this.$Progress.finish();
-            swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "Profile Updated Successfully !",
-                showConfirmButton: false,
-                timer: 1500
-            });
+            this.user_info
+                .patch("api/profile")
+                .then(() => {
+                    this.$Progress.finish();
+                    swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Profile Updated Successfully !",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                })
+                .catch(() => {
+                    this.$Progress.fail();
+                    swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Something went wrong!"
+                    });
+                });
         },
         upload_image(e) {
             this.$Progress.start();
