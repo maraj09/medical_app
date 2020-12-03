@@ -535,6 +535,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500
                     });
+                    this.isDisable = true
                 })
                 .catch(() => {
                     this.$Progress.fail();
@@ -544,6 +545,8 @@ export default {
                         text: "Something went wrong!"
                     });
                 });
+                
+
         },
         upload_image(e) {
             this.$Progress.start();
@@ -571,7 +574,12 @@ export default {
             }
         },
         data_change() {
-            this.isDisable = false;
+            if (this.isFile == true ) {
+                return false;
+            } else {
+                this.isDisable = false;
+            }
+            
         }
     },
     created() {

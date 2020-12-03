@@ -75,13 +75,13 @@ class UserController extends Controller
         });
         $user = User::findOrFail($request->id);
         $user_info = UserInfo::findOrFail($request->id);
-        // if (!is_null($request->info['avatar'])) {
-        //     $this->validate($request,[
-        //     'info.avatar' => 'imageable',
-        //     ],[
-        //         'info.avatar.imageable' => 'Image Must be an Image'
-        //     ]);
-        // }
+        if ($request->info['avatar'] !== $user_info->avatar) {
+            $this->validate($request,[
+            'info.avatar' => 'imageable',
+            ],[
+                'info.avatar.imageable' => 'Image Must be an Image'
+            ]);
+        }
         $this->validate($request,[
             'name' => 'required|string|max:10',
             'info.full_name' => 'required|string|max:255',
